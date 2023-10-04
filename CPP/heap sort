@@ -1,0 +1,58 @@
+#include <iostream>
+using namespace std;
+
+void swapElement(int* a, int* b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+void heap(int array[], int size, int i) {
+    int large = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < size && array[left] > array[large])
+        large = left;
+
+    if (right < size && array[right] > array[large])
+        large = right;
+
+    if (large != i) {
+        swapElement(&array[i], &array[large]);
+        heap(array, size, large);
+    }
+}
+
+void heapSort(int array[], int size) {
+    for (int i = size / 2 - 1; i >= 0; i--)
+        heap(array, size, i);
+
+    for (int i = size - 1; i >= 0; i--) {
+        swapElement(&array[0], &array[i]);
+        heap(array, i, 0);
+    }
+}
+
+void printarray(int array[], int size) {
+    for (int i = 0; i < size; i++)
+        cout << array[i] << " ";
+    cout << endl;
+}
+
+int main() {
+    int size, i;
+
+    cout << "enter the size of array: ";
+    cin >> size;
+
+    int array[size];
+
+    cout << "enter the elements of array: \n";
+    for (i = 0; i < size; i++)
+        cin >> array[i];
+
+    heapSort(array, size);
+    cout << "Sorted array is" << endl;
+    printarray(array, size);
+}
